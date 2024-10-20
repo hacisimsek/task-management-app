@@ -1,7 +1,9 @@
-import TaskManagementPage from "@/components/TaskManagementPage";
+import TaskManagement from "@/components/TaskManagement";
 
 export default function Home() {
   return (
-    <TaskManagementPage />
+    <div className="container mx-auto">
+      <TaskManagement />
+    </div>
   );
 }

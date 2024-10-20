@@ -10,8 +10,8 @@ import {
   Clock,
 } from "lucide-react";
 import { Task, CreateTaskDto, Priority, Status } from "../types/task";
-import { TaskService } from "../service/taskService";
-import TaskFormModal from "../Modal/TaskFormModal";
+import { TaskService } from "../service/TaskService";
+import TaskFormModal from "./TaskFormModal";
 
 const TaskManagementPage = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);

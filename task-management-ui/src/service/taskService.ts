@@ -1,42 +1,37 @@
-import axios from 'axios';
 import { Task, CreateTaskDto } from '../types/task';
 
-const API_URL = 'http://localhost:8080/api/tasks';
+export class TaskService {
+  static async getAllTasks(): Promise<Task[]> {
+    return fetch('/api/tasks').then(res => res.json());
+  }
 
-const api = axios.create({
-    baseURL: API_URL,
-    headers: {
+  static async getTasksByStatus(status: string): Promise<Task[]> {
+    return fetch(`/api/tasks?status=${status}`).then(res => res.json());
+  }
+
+  static async createTask(newTask: CreateTaskDto): Promise<Task> {
+    return fetch('/api/tasks', {
+      method: 'POST',
+      headers: {
         'Content-Type': 'application/json',
-    },
-});
+      },
+      body: JSON.stringify(newTask),
+    }).then(res => res.json());
+  }
 
-export const TaskService = {
-    getAllTasks: async (): Promise<Task[]> => {
-        const response = await api.get<Task[]>('');
-        return response.data;
-    },
+  static async updateTask(id: number, updatedTask: CreateTaskDto): Promise<Task> {
+    return fetch(`/api/tasks/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedTask),
+    }).then(res => res.json());
+  }
 
-    getTaskById: async (id: number): Promise<Task> => {
-        const response = await api.get<Task>(`/${id}`);
-        return response.data;
-    },
-
-    createTask: async (task: CreateTaskDto): Promise<Task> => {
-        const response = await api.post<Task>('', task);
-        return response.data;
-    },
-
-    updateTask: async (id: number, task: CreateTaskDto): Promise<Task> => {
-        const response = await api.put<Task>(`/${id}`, task);
-        return response.data;
-    },
-
-    deleteTask: async (id: number): Promise<void> => {
-        await api.delete(`/${id}`);
-    },
-
-    getTasksByStatus: async (status: string): Promise<Task[]> => {
-        const response = await api.get<Task[]>(`/status/${status}`);
-        return response.data;
-    },
-};
+  static async deleteTask(id: number): Promise<void> {
+    return fetch(`/api/tasks/${id}`, {
+      method: 'DELETE',
+    }).then(res => res.json());
+  }
+}

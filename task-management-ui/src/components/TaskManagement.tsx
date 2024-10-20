@@ -75,6 +75,17 @@ const TaskManagement = () => {
     }
   }
 
+  const deleteTask = async (id: number) => {
+    try {
+      await fetch(`${API_BASE_URL}/${id}`, {
+        method: 'DELETE',
+      });
+      setTasks(tasks.filter((task) => task.id !== id));
+    } catch {
+      setError('Task silinirken bir hata oluştu.');
+    }
+  }
+
   return (
     <div className="w-full max-w-4xl mx-auto p-4">
       {error && (
@@ -116,14 +127,30 @@ const TaskManagement = () => {
         </Button>
       </form>
 
-      
       {tasks.map((task) => (
-        <div key={task.id} className="bg-white shadow-md p-4 rounded-md mb-4">
-          <h2 className="text-lg font-semibold">{task.title}</h2>
-          <p className="text-sm text-gray-700">{task.description}</p>
-          <div className="flex justify-between mt-4">
-            <span className="text-sm text-gray-600">Öncelik: {task.priority}</span>
-            <span className="text-sm text-gray-600">Durum: {task.status}</span>
+        <div key={task.id} className="p-4 border border-gray-200 rounded-md mb-4 flex justify-between items-center">
+          <div>
+            <h3 className="font-semibold">{task.title}</h3>
+            <p className="text-sm text-gray-600">{task.description}</p>
+          </div>
+          <div className="flex gap-4">
+            <Select
+              value={task.priority}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateTask(task.id, { ...task, priority: e.target.value as 'LOW' | 'MEDIUM' | 'HIGH' })}
+            >
+              <option value="LOW">Düşük</option>
+              <option value="MEDIUM">Orta</option>
+              <option value="HIGH">Yüksek</option>
+            </Select>
+            <Select
+              value={task.status}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateTask(task.id, { ...task, status: e.target.value as 'TODO' | 'IN_PROGRESS' | 'DONE' })}
+            >
+              <option value="TODO">Yapılacak</option>
+              <option value="IN_PROGRESS">Devam Ediyor</option>
+              <option value="DONE">Tamamlandı</option>
+            </Select>
+            <Button onClick={() => deleteTask(task.id)}>Sil</Button>
           </div>
         </div>
       ))}

@@ -19,6 +19,6 @@ A React-based task management application with a Java backend.
   npm run dev
 ```
 
-
+## The Screenshot of Task Management UI 
 ![Logo](task-management-ui/src/app/images/Screenshot_task_management_app.png)
 

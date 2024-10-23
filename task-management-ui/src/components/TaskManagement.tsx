@@ -55,7 +55,7 @@ const TaskManagement = () => {
       setTasks([...tasks, data]);
       setNewTask({ title: '', description: '', priority: 'MEDIUM', status: 'TODO' });
     } catch {
-      setError('Task eklenirken bir hata oluştu.');
+      setError('An error occurred while adding a task.');
     }
   };
 
@@ -71,7 +71,7 @@ const TaskManagement = () => {
       const data = await response.json();
       setTasks(tasks.map((task) => (task.id === id ? data : task)));
     } catch {
-      setError('Task güncellenirken bir hata oluştu.');
+      setError('An error occurred while updating Task.');
     }
   }
 
@@ -82,7 +82,7 @@ const TaskManagement = () => {
       });
       setTasks(tasks.filter((task) => task.id !== id));
     } catch {
-      setError('Task silinirken bir hata oluştu.');
+      setError('An error occurred while deleting Task.');
     }
   }
 
@@ -94,12 +94,12 @@ const TaskManagement = () => {
 
       <form onSubmit={addTask} className="space-y-4 mb-6">
         <Input
-          placeholder="Task başlığı..."
+          placeholder="Task title..."
           value={newTask.title}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTask({ ...newTask, title: e.target.value })}
         />
         <Input
-          placeholder="Açıklama..."
+          placeholder="Description..."
           value={newTask.description}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTask({ ...newTask, description: e.target.value })}
         />
@@ -108,22 +108,22 @@ const TaskManagement = () => {
             value={newTask.priority}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setNewTask({ ...newTask, priority: e.target.value })}
           >
-            <option value="LOW">Düşük</option>
-            <option value="MEDIUM">Orta</option>
-            <option value="HIGH">Yüksek</option>
+            <option value="LOW">Low</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
           </Select>
           <Select
             value={newTask.status}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setNewTask({ ...newTask, status: e.target.value })}
           >
-            <option value="TODO">Yapılacak</option>
-            <option value="IN_PROGRESS">Devam Ediyor</option>
-            <option value="DONE">Tamamlandı</option>
+            <option value="TODO">To be done</option>
+            <option value="IN_PROGRESS">Continues</option>
+            <option value="DONE">Completed</option>
           </Select>
         </div>
         <Button onClick={addTask}>
           <PlusCircle className="w-5 h-5 mr-2" />
-            Task Ekle
+          Add Task
         </Button>
       </form>
 
@@ -138,17 +138,17 @@ const TaskManagement = () => {
               value={task.priority}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateTask(task.id, { ...task, priority: e.target.value as 'LOW' | 'MEDIUM' | 'HIGH' })}
             >
-              <option value="LOW">Düşük</option>
-              <option value="MEDIUM">Orta</option>
-              <option value="HIGH">Yüksek</option>
+              <option value="LOW">Low</option>
+              <option value="MEDIUM">Medium</option>
+              <option value="HIGH">High</option>
             </Select>
             <Select
               value={task.status}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateTask(task.id, { ...task, status: e.target.value as 'TODO' | 'IN_PROGRESS' | 'DONE' })}
             >
-              <option value="TODO">Yapılacak</option>
-              <option value="IN_PROGRESS">Devam Ediyor</option>
-              <option value="DONE">Tamamlandı</option>
+              <option value="TODO">To be done</option>
+              <option value="IN_PROGRESS">Continues</option>
+              <option value="DONE">Completed</option>
             </Select>
             <Button onClick={() => deleteTask(task.id)}>Sil</Button>
           </div>
